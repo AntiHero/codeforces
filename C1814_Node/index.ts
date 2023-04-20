@@ -39,8 +39,7 @@ const main = async () => {
     }
 
     for (const el of sortedR) {
-      const idx = map[el].shift();
-      const b = idx;
+      const b = map[el].shift();
 
       t1 > t2 ? (l2.push(b), (t2 += s2)) : (l1.push(b), (t1 += s1));
     }
