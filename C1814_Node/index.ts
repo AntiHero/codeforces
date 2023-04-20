@@ -20,9 +20,9 @@ const main = async () => {
   const [testsNum] = inputData.splice(0, 1);
 
   for (const _ of Array(+testsNum)) {
-    const [_, s1, s2] = inputData.splice(0, 1)[0].split(' ').map(Number);
+    const [_, s1, s2] = inputData.shift()!.split(' ').map(Number);
 
-    const r = inputData.splice(0, 1)[0].split(' ').map(Number);
+    const r = inputData.shift()!.split(' ').map(Number);
 
     let l1 = [];
     let l2 = [];
@@ -30,16 +30,19 @@ const main = async () => {
     let t1 = s1;
     let t2 = s2;
 
-    const sortedR = [...r].sort((a, b) => b - a);
-    const map: Record<string, any> = {};
+    const sortedR = r.slice().sort((a, b) => b - a);
 
-    for (let [key, el] of Object.entries(r)) {
-      map[el] ??= [];
-      map[el].push(+key + 1);
+    const map = new Map();
+
+    for (const [i, el] of r.entries()) {
+      if (!map.has(el)) {
+        map.set(el, []);
+      }
+      map.get(el).push(i + 1);
     }
 
     for (const el of sortedR) {
-      const b = map[el].shift();
+      const b = map.get(el).shift();
 
       t1 > t2 ? (l2.push(b), (t2 += s2)) : (l1.push(b), (t1 += s1));
     }
